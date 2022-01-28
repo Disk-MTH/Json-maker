@@ -1,0 +1,30 @@
+{
+	"language": "french",
+	
+	"labels": [
+		{
+			"label_modid": "Votre modid :",
+			"label_material_name": "Votre nom de materiau :",
+			"label_title": "Créateur de Json pour Minecraft",
+			"label_output_path": "Votre chemin de sortie :",
+			"label_credits": "License MIT\nCréé par Disk_MTH"
+		}
+	],
+		
+	"buttons": [
+		{
+			"button_lang": "Langue",
+			"button_github": "Github",
+			"button_add_to_list": "Ajouter à la liste",
+			"button_remove_from_list": "Retirer de la liste",
+			"button_open_output_folder": "Ouvrir le dossier de sortie",
+			"button_generate_json": "Générer !"
+		}
+	],
+	
+	"other": [
+		{
+			"app_title": "Créateur de Json pour Minecraft"
+		}
+	]
+}

@@ -1,0 +1,30 @@
+{
+	"language": "english",
+	
+	"labels": [
+		{
+			"label_modid": "Your modid :",
+			"label_material_name": "Your material name :",
+			"label_title": "Json maker for Minecraft",
+			"label_output_path": "Your output path :",
+			"label_credits": "MIT License \nCreated by Disk_MTH"
+		}
+	],
+	
+	"buttons": [
+		{
+			"button_lang": "Language",
+			"button_github": "Github",
+			"button_add_to_list": "Add to list",
+			"button_remove_from_list": "Remove from list",
+			"button_open_output_folder": "Open your output folder",
+			"button_generate_json": "Generate !"
+		}
+	],
+	
+	"other": [
+		{
+			"app_title": "Json maker for Minecraft"
+		}
+	]
+}
