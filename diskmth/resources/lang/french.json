@@ -7,7 +7,9 @@
 			"label_material_name": "Votre nom de materiau :",
 			"label_title": "Créateur de Json pour Minecraft",
 			"label_output_path": "Votre chemin de sortie :",
-			"label_credits": "License MIT\nCréé par Disk_MTH"
+			"label_credits": "License MIT\nCréé par Disk_MTH",
+			
+			"label_title_language": "Menu des langues"
 		}
 	],
 		
@@ -18,13 +20,19 @@
 			"button_add_to_list": "Ajouter à la liste",
 			"button_remove_from_list": "Retirer de la liste",
 			"button_open_output_folder": "Ouvrir le dossier de sortie",
-			"button_generate_json": "Générer !"
+			"button_generate_json": "Générer !",
+			
+			"button_apply_changes": "Appliquer les modifications"
 		}
 	],
 	
 	"other": [
 		{
-			"app_title": "Créateur de Json pour Minecraft"
+			"main_GUI_title": "Créateur de Json pour Minecraft",
+			"translations_GUI_title": "Langue",
+			"file_selector_GUI_title": "Selectionnez un dossier de sortie",
+			
+			"json_material": "votre_materiau"
 		}
 	]
 }
