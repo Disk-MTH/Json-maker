@@ -31,6 +31,7 @@ def main_gui():
         root.destroy()
         LanguageGUI.language_gui(root)
 
+    """
     def add_to_list():
         if not listbox_to_select.curselection() == ():
             for json in listbox_to_select.curselection():
@@ -42,6 +43,7 @@ def main_gui():
             for json in listbox_selected.curselection():
                 listbox_to_select.insert(json, listbox_selected.get(json))
                 listbox_selected.delete(json)
+    """
 
     def browse_output_path():
         global output_folder_path
@@ -59,7 +61,10 @@ def main_gui():
         modid = entry_modid.get()
         material_name = entry_material_name.get()
         output_folder_path = entry_output_path.get()
-        json_list = listbox_selected.get('@1,0', END)
+
+        json_list = []
+        for selected_items in listbox_json_list.curselection():
+            json_list.append(listbox_json_list.get(selected_items))
 
     def open_output_folder():
         global output_folder_path
@@ -125,26 +130,15 @@ def main_gui():
                         highlightthickness=0)
     label_title.place(x=root.winfo_width() / 2 - label_title.winfo_reqwidth() / 2, y=5)
 
-    listbox_to_select = Listbox(root, selectbackground="darkgray", selectmode=MULTIPLE, bd=0, highlightthickness=0)
-    listbox_to_select.place(x=160, y=50, width=170, height=60)
+    label_json_list = Label(root, bg="gray", text=Utils.get_translations("labels", "label_json_list"), bd=0,
+                            highlightthickness=0)
+    label_json_list.place(x=245 - label_json_list.winfo_reqwidth() / 2, y=50)
+
+    listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode=MULTIPLE, bd=0, highlightthickness=0)
+    listbox_json_list.place(x=160, y=70, width=170, height=200)
 
     for json in Utils.get_json_list("items"):
-        listbox_to_select.insert(END, json)
-
-    button_add_to_list = Button(root, bg="darkgray", text=Utils.get_translations("buttons", "button_add_to_list"), bd=2,
-                                highlightthickness=0, command=add_to_list)
-    button_add_to_list.place(x=160, y=120, width=170, height=30)
-
-    canvas_line = Canvas(root, bg="black", bd=0, highlightthickness=0)
-    canvas_line.place(x=170, y=159, width=150, height=2)
-
-    listbox_selected = Listbox(root, selectbackground="darkgray", selectmode=MULTIPLE, bd=0, highlightthickness=0)
-    listbox_selected.place(x=160, y=170, width=170, height=60)
-
-    button_remove_from_list = Button(root, bg="darkgray",
-                                     text=Utils.get_translations("buttons", "button_remove_from_list"), bd=2,
-                                     highlightthickness=0, command=remove_from_list)
-    button_remove_from_list.place(x=160, y=240, width=170, height=30)
+        listbox_json_list.insert(END, json)
 
     # left part
 
