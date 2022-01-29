@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from tkinter import *
 
 global translation_list
 global json_items
@@ -26,8 +27,8 @@ def load_translations():
 
     try:
         for files in os.listdir(get_resources_path("resources\\lang\\")):
-            if files.lower().endswith(tuple(".json")):
-                with open(get_resources_path("resources\\lang\\") + files, "r", encoding='utf-8') as file:
+            if files.lower().endswith(".lang"):
+                with open(get_resources_path("resources\\lang\\") + files, "r", encoding="utf-8") as file:
                     data = json.load(file)
                     translation_list.append(data)
 
@@ -40,11 +41,14 @@ def get_translations(translation_group, translation_key):
     global active_language
 
     for languages in translation_list:
-        if languages["language"] == active_language:
-            try:
-                return languages[translation_group][0][translation_key]
-            except KeyError:
-                return "Error"
+        try:
+            if languages["language"] == active_language:
+                try:
+                    return languages[translation_group][0][translation_key]
+                except KeyError:
+                    return "Error"
+        except KeyError:
+            return "Error"
 
 
 def get_languages_list():
@@ -73,30 +77,30 @@ def load_json():
     json_blockstates = {}
 
     for file in os.listdir(get_resources_path("resources\\json\\models\\item\\")):
-        if file.lower().endswith(tuple(".json")):
+        if file.lower().endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\models\\item\\") + file, "r",
-                          encoding='utf-8') as json_file:
+                with open(get_resources_path("resources\\json\\models\\item\\") + file, "r", encoding="utf-8") \
+                        as json_file:
                     json_items[file.replace("+++", get_translations("other", "json_material"))] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
     for file in os.listdir(get_resources_path("resources\\json\\models\\block\\")):
-        if file.lower().endswith(tuple(".json")):
+        if file.lower().endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\models\\block\\") + file, "r",
-                          encoding='utf-8') as json_file:
+                with open(get_resources_path("resources\\json\\models\\block\\") + file, "r", encoding="utf-8") \
+                        as json_file:
                     json_blocks[file.replace("+++", get_translations("other", "json_material"))] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
     for file in os.listdir(get_resources_path("resources\\json\\blockstates\\")):
-        if file.lower().endswith(tuple(".json")):
+        if file.lower().endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\blockstates\\") + file, "r",
-                          encoding='utf-8') as json_file:
+                with open(get_resources_path("resources\\json\\blockstates\\") + file, "r", encoding="utf-8") \
+                        as json_file:
                     json_blockstates[file.replace("+++", get_translations("other", "json_material"))] = \
                         json.load(json_file)
 
@@ -115,29 +119,3 @@ def get_json_list(json_list):
         return json_blocks
     if json_list == "blockstates":
         return json_blockstates
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    """
-    for root, dirs, files in os.walk(get_resources_path("resources\\json\\")):
-        for directory in dirs:
-            dir_path = get_resources_path("resources") + os.path.join(root, directory).split("resources")[1] + "\\"
-            for file in os.listdir(dir_path):
-                if file.lower().endswith(tuple(".json")):
-                    with open(dir_path + file, "r", encoding='utf-8') as json_file:
-                        json_list[file] = json.load(json_file)
-                        print(json_list)
-    """

@@ -83,10 +83,8 @@ def main_gui():
 
         get_entries()
 
-        print(modid)
-        print(material_name)
-        print(output_folder_path)
-        print(json_list)
+        if modid == "" or material_name == "" or output_folder_path == "" or json_list == []:
+            print("called")
 
     # Set basic parameters of frame
 
