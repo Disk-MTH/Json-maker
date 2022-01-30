@@ -1,5 +1,3 @@
-import tkinter
-
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import *
@@ -56,7 +54,8 @@ def main_gui():
 
         json_list = []
         for selected_items in listbox_json_list.curselection():
-            json_list.append(listbox_json_list.get(selected_items))
+            json_list.append(listbox_json_list.get(selected_items)
+                             .replace(Utils.get_translations("other", "json_material"), "+++"))
 
     def open_output_folder():
         global output_folder_path
@@ -78,18 +77,20 @@ def main_gui():
 
         if modid == "" or material_name == "" or output_folder_path == "" or json_list == []:
             messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
-                                 Utils.get_translations("labels", "label_blank_error_messagebox"))
+                                 Utils.get_translations("other", "blank_error_messagebox"))
 
         else:
             try:
                 Utils.make_output_dir(output_folder_path)
+
+                Utils.create_json_list_to_generate(json_list, output_folder_path, material_name)
 
                 if is_zip_file:
                     Utils.zip_output_dir(output_folder_path)
 
             except FileNotFoundError:
                 messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
-                                     Utils.get_translations("labels", "label_path_error_messagebox"))
+                                     Utils.get_translations("other", "path_error_messagebox"))
 
     # Set basic parameters of frame
 
@@ -141,7 +142,7 @@ def main_gui():
     listbox_json_list.place(x=160, y=70, width=170, height=170)
 
     for json in Utils.get_json_list("items"):
-        listbox_json_list.insert(END, json)
+        listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
 
     check = BooleanVar()
     checkbutton_zip_folder = Checkbutton(root, bg="gray", activebackground="gray",

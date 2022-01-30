@@ -11,10 +11,7 @@
 			"label_output_path": "Your output path:",
 			"label_credits": "MIT License \nCreated by Disk_MTH",
 			
-			"label_title_language": "Language menu",
-			
-			"label_blank_error_messagebox": "Error: One of the entries has been left empty. Please fill it out before generate json!",
-			"label_path_error_messagebox": "Error: The output path does not exist!"
+			"label_title_language": "Language menu"
 		}
 	],
 	
@@ -35,8 +32,15 @@
 			"translations_GUI_title": "Language",
 			"file_selector_GUI_title": "Select an output folder",
 			"error_GUI_title": "Error!",
+			"warning_GUI_title": "Warning!",
 			
-			"json_material": "your_material"
+			"json_material": "your_material",
+			
+			"blank_error_messagebox": "Error: One of the entries has been left empty. Please fill it out before generate json!",
+			"path_error_messagebox": "Error: The output path does not exist!",
+			
+			"missing_model_warning_messagebox": "Warning: You have selected one block json but the model is missing. Do you still want to generate? The jsons for this block will not be generated: ",
+			"missing_blockstate_warning_messagebox": "Warning: You have selected one block json but the blockstate is missing. Do you still want to generate? The jsons for this block will not be generated: "
 		}
 	]
 }

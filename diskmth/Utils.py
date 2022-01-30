@@ -1,13 +1,17 @@
+from tkinter import messagebox
 import os
 import sys
 import json
 import shutil
 
 global translation_list
+active_language = "english"  # default on start
 global json_items
 global json_blocks
 global json_blockstates
-active_language = "english"  # default on start
+global json_items_to_generate
+global json_blocks_to_generate
+global json_blockstates_to_generate
 
 
 def get_resources_path(relative_path):
@@ -27,7 +31,7 @@ def load_translations():
 
     try:
         for files in os.listdir(get_resources_path("resources\\lang\\")):
-            if files.lower().endswith(".lang"):
+            if str(files.lower()).endswith(".lang"):
                 with open(get_resources_path("resources\\lang\\") + files, "r", encoding="utf-8") as file:
                     data = json.load(file)
                     translation_list.append(data)
@@ -77,32 +81,31 @@ def load_json():
     json_blockstates = {}
 
     for file in os.listdir(get_resources_path("resources\\json\\models\\item\\")):
-        if file.lower().endswith(".json"):
+        if str(file.lower()).endswith(".json"):
             try:
                 with open(get_resources_path("resources\\json\\models\\item\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_items[file.replace("+++", get_translations("other", "json_material"))] = json.load(json_file)
+                    json_items[file] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
     for file in os.listdir(get_resources_path("resources\\json\\models\\block\\")):
-        if file.lower().endswith(".json"):
+        if str(file.lower()).endswith(".json"):
             try:
                 with open(get_resources_path("resources\\json\\models\\block\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_blocks[file.replace("+++", get_translations("other", "json_material"))] = json.load(json_file)
+                    json_blocks[file] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
     for file in os.listdir(get_resources_path("resources\\json\\blockstates\\")):
-        if file.lower().endswith(".json"):
+        if str(file.lower()).endswith(".json"):
             try:
                 with open(get_resources_path("resources\\json\\blockstates\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_blockstates[file.replace("+++", get_translations("other", "json_material"))] = \
-                        json.load(json_file)
+                    json_blockstates[file] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
@@ -140,7 +143,45 @@ def make_output_dir(output_folder_path):
     os.mkdir("block")
     os.mkdir("item")
 
+
+def create_json_list_to_generate(json_list, output_folder_path, material_name):
+    global json_items
+    global json_blocks
+    global json_blockstates
+    global json_items_to_generate
+    global json_blocks_to_generate
+    global json_blockstates_to_generate
+
+    json_items_to_generate = []
+    json_blocks_to_generate = []
+    json_blockstates_to_generate = []
+
     os.chdir(output_folder_path)
+
+    for json_files in json_list:
+        if json_files in json_blocks and json_files not in json_blockstates:
+
+            if messagebox.askyesno(get_translations("other", "warning_GUI_title"),
+                                   get_translations("other", "missing_model_warning_messagebox")
+                                   + json_files.replace("+++", material_name), icon="warning"):
+                json_list.remove(json_files)
+
+        elif json_files not in json_blocks and json_files in json_blockstates:
+
+            if messagebox.askyesno(get_translations("other", "warning_GUI_title"),
+                                   get_translations("other", "missing_blockstate_warning_messagebox")
+                                   + json_files.replace("+++", material_name), icon="warning"):
+                json_list.remove(json_files)
+
+        elif json_files in json_blocks and json_files in json_blockstates:
+            print("block ok")
+
+        else:
+            print("just item")
+
+
+def e():
+    pass
 
 
 def zip_output_dir(output_folder_path):
