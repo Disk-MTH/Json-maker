@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from tkinter import *
+import shutil
 
 global translation_list
 global json_items
@@ -119,3 +119,31 @@ def get_json_list(json_list):
         return json_blocks
     if json_list == "blockstates":
         return json_blockstates
+
+
+def make_output_dir(output_folder_path):
+    os.chdir(output_folder_path)
+
+    try:
+        os.mkdir("Json maker")
+    except FileExistsError:
+        shutil.rmtree("Json maker")
+        os.mkdir("Json maker")
+
+    os.chdir("Json maker")
+
+    os.mkdir("blockstates")
+    os.mkdir("models")
+
+    os.chdir("models")
+
+    os.mkdir("block")
+    os.mkdir("item")
+
+    os.chdir(output_folder_path)
+
+
+def zip_output_dir(output_folder_path):
+    os.chdir(output_folder_path)
+    shutil.make_archive("Json maker", "zip", "Json maker")
+    shutil.rmtree("Json maker")

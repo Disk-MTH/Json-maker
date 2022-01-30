@@ -1,4 +1,7 @@
+import tkinter
+
 from tkinter import filedialog
+from tkinter import messagebox
 from tkinter import *
 import Utils
 import webbrowser
@@ -9,6 +12,7 @@ import subprocess
 global modid
 global material_name
 global output_folder_path
+global is_zip_file
 global json_list
 
 
@@ -31,20 +35,6 @@ def main_gui():
         root.destroy()
         LanguageGUI.language_gui(root)
 
-    """
-    def add_to_list():
-        if not listbox_to_select.curselection() == ():
-            for json in listbox_to_select.curselection():
-                listbox_selected.insert(json, listbox_to_select.get(json))
-                listbox_to_select.delete(json)
-
-    def remove_from_list():
-        if not listbox_selected.curselection() == ():
-            for json in listbox_selected.curselection():
-                listbox_to_select.insert(json, listbox_selected.get(json))
-                listbox_selected.delete(json)
-    """
-
     def browse_output_path():
         global output_folder_path
         output_folder_path = filedialog.askdirectory(initialdir=os.environ["USERPROFILE"] + "\\Desktop",
@@ -56,11 +46,13 @@ def main_gui():
         global modid
         global material_name
         global output_folder_path
+        global is_zip_file
         global json_list
 
         modid = entry_modid.get()
         material_name = entry_material_name.get()
         output_folder_path = entry_output_path.get()
+        is_zip_file = check.get()
 
         json_list = []
         for selected_items in listbox_json_list.curselection():
@@ -79,12 +71,25 @@ def main_gui():
         global modid
         global material_name
         global output_folder_path
+        global is_zip_file
         global json_list
 
         get_entries()
 
         if modid == "" or material_name == "" or output_folder_path == "" or json_list == []:
-            print("called")
+            messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
+                                 Utils.get_translations("labels", "label_blank_error_messagebox"))
+
+        else:
+            try:
+                Utils.make_output_dir(output_folder_path)
+
+                if is_zip_file:
+                    Utils.zip_output_dir(output_folder_path)
+
+            except FileNotFoundError:
+                messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
+                                     Utils.get_translations("labels", "label_path_error_messagebox"))
 
     # Set basic parameters of frame
 
@@ -133,10 +138,19 @@ def main_gui():
     label_json_list.place(x=245 - label_json_list.winfo_reqwidth() / 2, y=50)
 
     listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode=MULTIPLE, bd=0, highlightthickness=0)
-    listbox_json_list.place(x=160, y=70, width=170, height=200)
+    listbox_json_list.place(x=160, y=70, width=170, height=170)
 
     for json in Utils.get_json_list("items"):
         listbox_json_list.insert(END, json)
+
+    check = BooleanVar()
+    checkbutton_zip_folder = Checkbutton(root, bg="gray", activebackground="gray",
+                                         variable=check, onvalue=True, offvalue=False, bd=0, highlightthickness=0)
+    checkbutton_zip_folder.place(x=245 - checkbutton_zip_folder.winfo_reqwidth() / 2, y=270, width=15, height=15)
+
+    label_zip_folder = Label(root, bg="gray", text=Utils.get_translations("labels", "label_zip_folder"), bd=0,
+                             highlightthickness=0)
+    label_zip_folder.place(x=230 - label_json_list.winfo_reqwidth() / 2, y=250)
 
     # left part
 

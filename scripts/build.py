@@ -32,7 +32,8 @@ def get_full_command():
     command = "\"" + os.path.abspath("..\\python\\python.exe").replace("\\", "/") + "\" " + command
 
     if os.path.exists("..\\diskmth\\resources\\icons\\app_icon.ico"):
-        command = command + " --icon \"" + os.path.abspath("..\\diskmth\\resources\\icons\\app_icon.ico").replace("\\", "/") + "\""
+        command = command + " --icon \"" + os.path.abspath("..\\diskmth\\resources\\icons\\app_icon.ico")\
+            .replace("\\", "/") + "\""
 
     for i in range(len(resources_list)):
         command = command + " --add-data \"" + resources_list[i].replace("\\", "/") + ";.\""

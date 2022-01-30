@@ -3,14 +3,18 @@
 	
 	"labels": [
 		{
-			"label_modid": "Your modid :",
-			"label_material_name": "Your material name :",
+			"label_modid": "Your modid:",
+			"label_material_name": "Your material name:",
 			"label_title": "Json maker for Minecraft",
 			"label_json_list": "Select json to create",
-			"label_output_path": "Your output path :",
+			"label_zip_folder": "Check to have a zip folder:",
+			"label_output_path": "Your output path:",
 			"label_credits": "MIT License \nCreated by Disk_MTH",
 			
-			"label_title_language": "Language menu"
+			"label_title_language": "Language menu",
+			
+			"label_blank_error_messagebox": "Error: One of the entries has been left empty. Please fill it out before generate json!",
+			"label_path_error_messagebox": "Error: The output path does not exist!"
 		}
 	],
 	
@@ -19,7 +23,7 @@
 			"button_lang": "Language",
 			"button_github": "Github",
 			"button_open_output_folder": "Open your output folder",
-			"button_generate_json": "Generate !",
+			"button_generate_json": "Generate!",
 			
 			"button_apply_changes": "Apply changes"
 		}
@@ -30,6 +34,7 @@
 			"main_GUI_title": "Json maker for Minecraft",
 			"translations_GUI_title": "Language",
 			"file_selector_GUI_title": "Select an output folder",
+			"error_GUI_title": "Error!",
 			
 			"json_material": "your_material"
 		}
