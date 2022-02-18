@@ -34,7 +34,7 @@
 			"error_GUI_title": "Erreur !",
 			"warning_GUI_title": "Attention !",
 			
-			"json_material": "votre_materiau"
+			"json_material": "votre_materiau",
 			
 			"blank_error_messagebox": "Erreur : Une des entrées a été laissée vide. Veuillez la remplir avant de générer les json !",
 			"path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !",

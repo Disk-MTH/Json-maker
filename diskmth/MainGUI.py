@@ -1,17 +1,5 @@
-from tkinter import filedialog
-from tkinter import messagebox
 from tkinter import *
 import Utils
-import webbrowser
-import LanguageGUI
-import os
-import subprocess
-
-global modid
-global material_name
-global output_folder_path
-global is_zip_file
-global json_list
 
 
 def main_gui():
@@ -26,159 +14,108 @@ def main_gui():
 
     # Definition of some useful functions
 
-    def browse_to_github():
-        webbrowser.open("https://github.com/Disk-MTH/Json-maker")
+    def on_resize(event):
+        scale = [1.0, 1.0]
 
-    def launch_language_gui(parent_frame):
-        root.destroy()
-        LanguageGUI.language_gui(root)
+        scale[0] = root.winfo_height() / 300
+        scale[1] = root.winfo_width() / 500
 
-    def browse_output_path():
-        global output_folder_path
-        output_folder_path = filedialog.askdirectory(initialdir=os.environ["USERPROFILE"] + "\\Desktop",
-                                                     title=Utils.get_translations("other", "file_selector_GUI_title"))
-        entry_output_path.delete(0, END)
-        entry_output_path.insert(0, output_folder_path)
+        for row in range(root.grid_size()[0]):
+            root.grid_rowconfigure(row, minsize=20 * scale[0])
 
-    def get_entries():
-        global modid
-        global material_name
-        global output_folder_path
-        global is_zip_file
-        global json_list
-
-        modid = entry_modid.get()
-        material_name = entry_material_name.get()
-        output_folder_path = entry_output_path.get()
-        is_zip_file = check.get()
-
-        json_list = []
-        for selected_items in listbox_json_list.curselection():
-            json_list.append(listbox_json_list.get(selected_items)
-                             .replace(Utils.get_translations("other", "json_material"), "+++"))
-
-    def open_output_folder():
-        global output_folder_path
-        get_entries()
-        filebrowser_path = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
-        formatted_path = os.path.normpath(output_folder_path)
-
-        if os.path.isdir(formatted_path):
-            subprocess.run([filebrowser_path, formatted_path])
-
-    def generate_json():
-        global modid
-        global material_name
-        global output_folder_path
-        global is_zip_file
-        global json_list
-
-        get_entries()
-
-        if modid == "" or material_name == "" or output_folder_path == "" or json_list == []:
-            messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
-                                 Utils.get_translations("other", "blank_error_messagebox"))
-
-        else:
-            try:
-                Utils.make_output_dir(output_folder_path)
-
-                Utils.create_json_list_to_generate(json_list, output_folder_path, material_name)
-
-                if is_zip_file:
-                    Utils.zip_output_dir(output_folder_path)
-
-            except FileNotFoundError:
-                messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
-                                     Utils.get_translations("other", "path_error_messagebox"))
+        for column in range(root.grid_size()[1]):
+            root.grid_columnconfigure(column, minsize=20 * scale[1])
 
     # Set basic parameters of frame
 
-    root.geometry("500x300")
-    root.resizable(width=False, height=False)
+    root.geometry("660x400")
+    root.resizable(width=True, height=True)
     root.title(Utils.get_translations("other", "main_GUI_title"))
     root.iconbitmap(Utils.get_resources_path("resources\\icons\\app_icon.ico"))
 
+    root.bind("<Configure>", on_resize)
+
     # Add components to frame
 
-    label_background = Label(root, bg="gray", width=500, height=200, bd=0, highlightthickness=0)
-    label_background.place(x=0, y=0)
+    label_background = Label(root, bg="gray", bd=0, highlightthickness=0)
+    label_background.grid(row=0, column=0, rowspan=16, columnspan=26, sticky="NSEW")
 
     # left part
 
     label_modid = Label(root, bg="gray", text=Utils.get_translations("labels", "label_modid"), bd=0,
                         highlightthickness=0)
-    label_modid.place(x=80 - label_modid.winfo_reqwidth() / 2, y=50)
+    label_modid.grid(row=2, column=1, rowspan=1, columnspan=7, sticky="NSEW")
 
     entry_modid = Entry(root, bg="white", bd=0, highlightthickness=0)
-    entry_modid.place(x=10, y=70, width=140, height=30)
+    entry_modid.grid(row=3, column=1, rowspan=1, columnspan=7, sticky="NSEW")
 
     label_material_name = Label(root, bg="gray", text=Utils.get_translations("labels", "label_material_name"), bd=0,
                                 highlightthickness=0)
-    label_material_name.place(x=80 - label_material_name.winfo_reqwidth() / 2, y=130)
+    label_material_name.grid(row=6, column=1, rowspan=1, columnspan=7, sticky="NSEW")
 
     entry_material_name = Entry(root, bg="white", bd=0, highlightthickness=0)
-    entry_material_name.place(x=10, y=150, width=140, height=30)
+    entry_material_name.grid(row=7, column=1, rowspan=1, columnspan=7, sticky="NSEW")
 
     button_lang = Button(root, bg="darkgray", text=Utils.get_translations("buttons", "button_lang"), bd=2,
-                         highlightthickness=0, command=lambda: launch_language_gui(root))
-    button_lang.place(x=10, y=210, width=60, height=60)
+                         highlightthickness=0, command=None)
+    button_lang.grid(row=10, column=1, rowspan=3, columnspan=3, sticky="NSEW")
 
     button_github = Button(root, bg="darkgray", text=Utils.get_translations("buttons", "button_github"), bd=2,
-                           highlightthickness=0, command=browse_to_github)
-    button_github.place(x=90, y=210, width=60, height=60)
+                           highlightthickness=0, command=None)
+    button_github.grid(row=10, column=5, rowspan=3, columnspan=3, sticky="NSEW")
 
     # middle part
 
     label_title = Label(root, bg="gray", text=Utils.get_translations("labels", "label_title"), font="Arial", bd=0,
                         highlightthickness=0)
-    label_title.place(x=root.winfo_width() / 2 - label_title.winfo_reqwidth() / 2, y=5)
+    label_title.grid(row=0, column=8, rowspan=2, columnspan=9, sticky="NSEW")
 
     label_json_list = Label(root, bg="gray", text=Utils.get_translations("labels", "label_json_list"), bd=0,
                             highlightthickness=0)
-    label_json_list.place(x=245 - label_json_list.winfo_reqwidth() / 2, y=50)
+    label_json_list.grid(row=2, column=9, rowspan=1, columnspan=7, sticky="NSEW")
 
-    listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode=MULTIPLE, bd=0, highlightthickness=0)
-    listbox_json_list.place(x=160, y=70, width=170, height=170)
+    listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode="multiple", bd=0, highlightthickness=0)
+    listbox_json_list.grid(row=3, column=9, rowspan=7, columnspan=7, sticky="NSEW")
 
     for json in Utils.get_json_list("items"):
         listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
 
+    label_zip_folder = Label(root, bg="gray", text=Utils.get_translations("labels", "label_zip_folder"), bd=0,
+                             highlightthickness=0)
+    label_zip_folder.grid(row=11, column=9, rowspan=1, columnspan=7, sticky="NSEW")
+
     check = BooleanVar()
     checkbutton_zip_folder = Checkbutton(root, bg="gray", activebackground="gray",
                                          variable=check, onvalue=True, offvalue=False, bd=0, highlightthickness=0)
-    checkbutton_zip_folder.place(x=245 - checkbutton_zip_folder.winfo_reqwidth() / 2, y=270, width=15, height=15)
-
-    label_zip_folder = Label(root, bg="gray", text=Utils.get_translations("labels", "label_zip_folder"), bd=0,
-                             highlightthickness=0)
-    label_zip_folder.place(x=230 - label_json_list.winfo_reqwidth() / 2, y=250)
+    checkbutton_zip_folder.grid(row=12, column=12, rowspan=1, columnspan=1, sticky="NSEW")
 
     # left part
 
     label_output_path = Label(root, bg="gray", text=Utils.get_translations("labels", "label_output_path"), bd=0,
                               highlightthickness=0)
-    label_output_path.place(x=395 - label_output_path.winfo_reqwidth() / 2, y=50)
+
+    label_output_path.grid(row=2, column=17, rowspan=1, columnspan=5, sticky="NSEW")
 
     entry_output_path = Entry(root, bg="white", bd=0, highlightthickness=0)
-    entry_output_path.place(x=340, y=70, width=110, height=30)
+    entry_output_path.grid(row=3, column=17, rowspan=1, columnspan=5, sticky="NSEW")
 
     button_select_output_path_picture = PhotoImage(file=Utils.get_resources_path("resources\\pictures\\browse.png"))
     button_select_output_path = Button(root, image=button_select_output_path_picture, bd=2, highlightthickness=0,
-                                       command=browse_output_path)
-    button_select_output_path.place(x=460, y=70, width=30, height=30)
+                                       command=None)
+    button_select_output_path.grid(row=3, column=23, rowspan=1, columnspan=1, sticky="NSEW")
 
     button_open_output_folder = Button(root, bg="darkgray",
                                        text=Utils.get_translations("buttons", "button_open_output_folder"), bd=2,
-                                       highlightthickness=0, command=open_output_folder)
-    button_open_output_folder.place(x=340, y=130, width=150, height=40)
+                                       highlightthickness=0, command=None)
+    button_open_output_folder.grid(row=6, column=17, rowspan=1, columnspan=7, sticky="NSEW")
 
     button_generate_json = Button(root, bg="darkgray", text=Utils.get_translations("buttons", "button_generate_json"),
-                                  bd=2, highlightthickness=0, command=generate_json)
-    button_generate_json.place(x=340, y=190, width=150, height=50)
+                                  bd=2, highlightthickness=0, command=None)
+    button_generate_json.grid(row=9, column=17, rowspan=2, columnspan=7, sticky="NSEW")
 
     label_credits = Label(root, bg="gray", text=Utils.get_translations("labels", "label_credits"), bd=0,
                           highlightthickness=0)
-    label_credits.place(x=360, y=250)
+    label_credits.grid(row=12, column=17, rowspan=1, columnspan=7, sticky="NSEW")
 
     # Loop the frame
 

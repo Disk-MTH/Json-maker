@@ -144,7 +144,7 @@ def make_output_dir(output_folder_path):
     os.mkdir("item")
 
 
-def create_json_list_to_generate(json_list, output_folder_path, material_name):
+def create_json_list_to_generate(json_list, material_name):
     global json_items
     global json_blocks
     global json_blockstates
@@ -156,8 +156,6 @@ def create_json_list_to_generate(json_list, output_folder_path, material_name):
     json_blocks_to_generate = []
     json_blockstates_to_generate = []
 
-    os.chdir(output_folder_path)
-
     for json_files in json_list:
         if json_files in json_blocks and json_files not in json_blockstates:
 
@@ -166,6 +164,12 @@ def create_json_list_to_generate(json_list, output_folder_path, material_name):
                                    + json_files.replace("+++", material_name), icon="warning"):
                 json_list.remove(json_files)
 
+            else:
+                json_items_to_generate = []
+                json_blocks_to_generate = []
+                json_blockstates_to_generate = []
+                break
+
         elif json_files not in json_blocks and json_files in json_blockstates:
 
             if messagebox.askyesno(get_translations("other", "warning_GUI_title"),
@@ -173,15 +177,42 @@ def create_json_list_to_generate(json_list, output_folder_path, material_name):
                                    + json_files.replace("+++", material_name), icon="warning"):
                 json_list.remove(json_files)
 
+            else:
+                json_items_to_generate = []
+                json_blocks_to_generate = []
+                json_blockstates_to_generate = []
+                break
+
         elif json_files in json_blocks and json_files in json_blockstates:
-            print("block ok")
+            json_items_to_generate.append(json_files)
+            json_blocks_to_generate.append(json_files)
+            json_blockstates_to_generate.append(json_files)
 
-        else:
-            print("just item")
+        elif json_files in json_items:
+            json_items_to_generate.append(json_files)
 
 
-def e():
-    pass
+def create_json(output_folder_path, modid, material_name):
+    global json_items
+    global json_blocks
+    global json_blockstates
+    global json_items_to_generate
+    global json_blocks_to_generate
+    global json_blockstates_to_generate
+
+    items_path = ""
+    blocks_path = output_folder_path + "\\Json maker\\models\\block\\"
+    blockstates_path = output_folder_path + "\\Json maker\\blockstates\\"
+
+    index = 0
+    for json_files in json_items_to_generate:
+
+        print(json_items[json_items_to_generate[index]])
+
+
+        with open(output_folder_path + "\\Json maker\\models\\item\\" + json_files.replace("+++", material_name), "w", encoding="utf-8") as json_file:
+            json.dump(json_items[json_items_to_generate[index]], json_file)
+        index += 1
 
 
 def zip_output_dir(output_folder_path):
