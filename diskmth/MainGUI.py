@@ -1,20 +1,34 @@
 from tkinter import *
+from PIL import Image, ImageTk
 import Utils
 
+
+global correct_picture
 
 def main_gui():
     # Create the frame
 
     root = Tk()
 
-    # Initialisation of json and translations
+    # Initialization of some useful variables:
+
+    check = BooleanVar()
+
+    # button_select_output_path_picture = PhotoImage(file=Utils.get_resources_path("resources\\pictures\\browse.png"))
+
+    # Initialization of json and translations
 
     Utils.load_translations()
     Utils.load_json()
 
     # Definition of some useful functions
 
+    test = PhotoImage(file=Utils.get_resources_path("resources\\pictures\\browse.png"))
+
+
     def on_resize(event):
+        global correct_picture
+
         scale = [1.0, 1.0]
 
         scale[0] = root.winfo_height() / 300
@@ -25,6 +39,16 @@ def main_gui():
 
         for column in range(root.grid_size()[1]):
             root.grid_columnconfigure(column, minsize=20 * scale[1])
+
+        for widget in root.winfo_children():
+            if isinstance(widget, Button) or isinstance(widget, Label):
+                widget.config(font=("Helvetica", int(scale[1] * 8)))
+
+        default_picture = Image.open(Utils.get_resources_path("resources\\pictures\\browse.png"))
+        resized_picture = default_picture.resize((int(20 * scale[0] + 10), int(20 * scale[1] + 10)), Image.ANTIALIAS)
+        correct_picture = ImageTk.PhotoImage(resized_picture)
+
+        button_select_output_path.config(image=correct_picture)
 
     # Set basic parameters of frame
 
@@ -84,7 +108,6 @@ def main_gui():
                              highlightthickness=0)
     label_zip_folder.grid(row=11, column=9, rowspan=1, columnspan=7, sticky="NSEW")
 
-    check = BooleanVar()
     checkbutton_zip_folder = Checkbutton(root, bg="gray", activebackground="gray",
                                          variable=check, onvalue=True, offvalue=False, bd=0, highlightthickness=0)
     checkbutton_zip_folder.grid(row=12, column=12, rowspan=1, columnspan=1, sticky="NSEW")
@@ -99,9 +122,7 @@ def main_gui():
     entry_output_path = Entry(root, bg="white", bd=0, highlightthickness=0)
     entry_output_path.grid(row=3, column=17, rowspan=1, columnspan=5, sticky="NSEW")
 
-    button_select_output_path_picture = PhotoImage(file=Utils.get_resources_path("resources\\pictures\\browse.png"))
-    button_select_output_path = Button(root, image=button_select_output_path_picture, bd=2, highlightthickness=0,
-                                       command=None)
+    button_select_output_path = Button(root, bd=2, highlightthickness=0, command=None)
     button_select_output_path.grid(row=3, column=23, rowspan=1, columnspan=1, sticky="NSEW")
 
     button_open_output_folder = Button(root, bg="darkgray",
