@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import tradlib
 import shutil
 import sys
@@ -30,26 +31,34 @@ def set_active_language(selected_language):
 
 
 def make_output_dir(output_folder_path):
-    os.chdir(output_folder_path)
-
     try:
-        os.mkdir("Json maker")
-    except FileExistsError:
-        shutil.rmtree("Json maker")
-        os.mkdir("Json maker")
+        os.chdir(output_folder_path)
 
-    os.chdir("Json maker")
+        try:
+            os.mkdir("Json maker")
+        except FileExistsError:
+            shutil.rmtree("Json maker")
+            os.mkdir("Json maker")
 
-    os.mkdir("blockstates")
-    os.mkdir("models")
+        os.chdir("Json maker")
 
-    os.chdir("models")
+        os.mkdir("blockstates")
+        os.mkdir("models")
 
-    os.mkdir("block")
-    os.mkdir("item")
+        os.chdir("models")
+
+        os.mkdir("block")
+        os.mkdir("item")
+
+    except FileNotFoundError:
+        messagebox.showerror(get_translations("other", "error_GUI_title"),
+                             get_translations("labels", "label_path_error_messagebox"))
 
 
 def zip_output_dir(output_folder_path):
-    os.chdir(output_folder_path)
-    shutil.make_archive("Json maker", "zip", "Json maker")
-    shutil.rmtree("Json maker")
+    try:
+        os.chdir(output_folder_path)
+        shutil.make_archive("Json maker", "zip", "Json maker")
+        shutil.rmtree("Json maker")
+    except FileNotFoundError:
+        pass

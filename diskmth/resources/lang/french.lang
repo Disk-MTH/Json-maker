@@ -11,7 +11,10 @@
 			"label_output_path": "Votre chemin de sortie :",
 			"label_credits": "License MIT\nCréé par Disk_MTH",
 			
-			"label_title_language": "Menu des langues"
+			"label_title_language": "Menu des langues",
+			
+			"label_blank_error_messagebox": "Erreur : Une des entrées a été laissée vide. Veuillez la remplir avant de générer les json !",
+			"path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !"
 		}
 	],
 		
@@ -35,9 +38,6 @@
 			"warning_GUI_title": "Attention !",
 			
 			"json_material": "votre_materiau",
-			
-			"blank_error_messagebox": "Erreur : Une des entrées a été laissée vide. Veuillez la remplir avant de générer les json !",
-			"path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !",
 			
 			"missing_model_warning_messagebox": "Vous avez sélectionné un json de block mais le model manque. Souhaitez-vous quand même générer ? Les jsons pour ce bloc ne seront pas générés : ",
 			"missing_blockstate_warning_messagebox": "Vous avez sélectionné un json de block mais le blockstate manque. Souhaitez-vous quand même générer ? Les jsons pour ce bloc ne seront pas générés : "
