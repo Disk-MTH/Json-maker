@@ -1,5 +1,13 @@
-"""
-def load_json():
+import Utils
+import json
+import os
+
+global json_items
+global json_blocks
+global json_blockstates
+
+
+def load_jsons():
     global json_items
     global json_blocks
     global json_blockstates
@@ -8,42 +16,38 @@ def load_json():
     json_blocks = {}
     json_blockstates = {}
 
-    for file in os.listdir(get_resources_path("resources\\json\\models\\item\\")):
+    for file in os.listdir(Utils.get_resources_path("resources\\json\\models\\item\\")):
         if str(file.lower()).endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\models\\item\\") + file, "r", encoding="utf-8") \
+                with open(Utils.get_resources_path("resources\\json\\models\\item\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_items[file] = json.load(json_file)
+                    json_items[file.replace(".json", "")] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
-    for file in os.listdir(get_resources_path("resources\\json\\models\\block\\")):
+    for file in os.listdir(Utils.get_resources_path("resources\\json\\models\\block\\")):
         if str(file.lower()).endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\models\\block\\") + file, "r", encoding="utf-8") \
+                with open(Utils.get_resources_path("resources\\json\\models\\block\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_blocks[file] = json.load(json_file)
+                    json_blocks[file.replace(".json", "")] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
-    for file in os.listdir(get_resources_path("resources\\json\\blockstates\\")):
+    for file in os.listdir(Utils.get_resources_path("resources\\json\\blockstates\\")):
         if str(file.lower()).endswith(".json"):
             try:
-                with open(get_resources_path("resources\\json\\blockstates\\") + file, "r", encoding="utf-8") \
+                with open(Utils.get_resources_path("resources\\json\\blockstates\\") + file, "r", encoding="utf-8") \
                         as json_file:
-                    json_blockstates[file] = json.load(json_file)
+                    json_blockstates[file.replace(".json", "")] = json.load(json_file)
 
             except json.decoder.JSONDecodeError:
                 pass
 
 
 def get_json_list(json_list):
-    global json_items
-    global json_blocks
-    global json_blockstates
-
     if json_list == "items":
         return json_items
     elif json_list == "blocks":
@@ -51,6 +55,7 @@ def get_json_list(json_list):
     if json_list == "blockstates":
         return json_blockstates
 
+"""
 def create_json_list_to_generate(json_list, material_name):
     global json_items
     global json_blocks

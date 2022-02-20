@@ -6,14 +6,14 @@ import GUICommands
 global correct_picture
 
 
-def language_gui(parent_frame):
+def language_gui(parent_frame, listbox_json_list):
     # Create the frame
 
     root = Tk()
 
     # Definition of some useful functions
 
-    def on_resize(event):
+    def on_update(event):
         global correct_picture
 
         scale = [1.0, 1.0]
@@ -30,9 +30,9 @@ def language_gui(parent_frame):
         for widget in root.winfo_children():
             if isinstance(widget, Button) or isinstance(widget, Label):
                 if widget.winfo_name() == "!label2":
-                    widget.config(font=("Helvetica", int(scale[1] * 15)))
+                    widget.config(font=("TkDefaultFont", int(scale[1] * 15)))
                 else:
-                    widget.config(font=("Helvetica", int(scale[1] * 8)))
+                    widget.config(font=("TkDefaultFont", int(scale[1] * 8)))
 
     # Set basic parameters of frame
 
@@ -43,8 +43,8 @@ def language_gui(parent_frame):
 
     # Add components to frame
 
-    root.bind("<Configure>", on_resize)
-    root.protocol("WM_DELETE_WINDOW", lambda: GUICommands.close_gui(root, parent_frame))
+    root.bind("<Configure>", on_update)
+    root.protocol("WM_DELETE_WINDOW", lambda: GUICommands.close_gui(root, parent_frame, listbox_json_list))
 
     label_background = Label(root, bg="gray", bd=0, highlightthickness=0)
     label_background.grid(row=0, column=0, rowspan=16, columnspan=13, sticky="NSEW")
@@ -61,7 +61,8 @@ def language_gui(parent_frame):
 
     button_apply_changes = Button(root, bg="darkgray", text=Utils.get_translations("buttons", "button_apply_changes"),
                                   bd=2, highlightthickness=0,
-                                  command=lambda: GUICommands.apply_changes(listbox_languages_list, root, parent_frame))
+                                  command=lambda: GUICommands.apply_changes(listbox_languages_list, root, parent_frame,
+                                                                            listbox_json_list))
     button_apply_changes.grid(row=11, column=1, rowspan=2, columnspan=10, sticky="NSEW")
 
     # Loop the frame

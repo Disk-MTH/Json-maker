@@ -1,7 +1,7 @@
-import os
-import sys
-import shutil
 import tradlib
+import shutil
+import sys
+import os
 
 active_language = "english"  # default on start
 

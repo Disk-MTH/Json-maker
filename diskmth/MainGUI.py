@@ -1,12 +1,14 @@
-import tradlib
 from tkinter import *
 from PIL import Image, ImageTk
+import JsonManager
 import GUICommands
-import Utils
 import tradlib
+import Utils
 import os
 
+
 global correct_picture
+global selected_items
 
 
 def main_gui():
@@ -26,8 +28,9 @@ def main_gui():
 
     # Definition of some useful functions
 
-    def on_resize(event):
+    def on_update(event):
         global correct_picture
+        global selected_items
 
         scale = [1.0, 1.0]
 
@@ -40,39 +43,32 @@ def main_gui():
         for column in range(root.grid_size()[1]):
             root.grid_columnconfigure(column, minsize=20 * scale[1])
 
-        for widget in root.winfo_children():
-            if isinstance(widget, Button) or isinstance(widget, Label):
-                if widget.winfo_name() == "!label4":
-                    test = int(scale[0])
-                    widget.config(font=("Arial", 10))
-                else:
-                    widget.config(font=("Helvetica", int(scale[1] * 8)))
-
-        default_picture = Image.open(Utils.get_resources_path("resources\\pictures\\browse.png"))
-        resized_picture = default_picture.resize((int(20 * scale[0] + 5), int(20 * scale[1] + 5)), Image.ANTIALIAS)
-        correct_picture = ImageTk.PhotoImage(resized_picture)
-
-        button_select_output_path.config(image=correct_picture)
+        updated_font = ("TkDefaultFont", int(scale[1] * 6.5))
 
         # left part
 
-        label_modid.config(text=Utils.get_translations("labels", "label_modid"))
-        label_material_name.config(text=Utils.get_translations("labels", "label_material_name"))
-        button_lang.config(text=Utils.get_translations("buttons", "button_lang"))
-        button_github.config(text=Utils.get_translations("buttons", "button_github"))
+        label_modid.config(text=Utils.get_translations("labels", "label_modid"), font=updated_font)
+        label_material_name.config(text=Utils.get_translations("labels", "label_material_name"), font=updated_font)
+        button_lang.config(text=Utils.get_translations("buttons", "button_lang"), font=updated_font)
+        button_github.config(text=Utils.get_translations("buttons", "button_github"), font=updated_font)
 
         # middle part
 
-        label_title.config(text=Utils.get_translations("labels", "label_title"))
-        label_json_list.config(text=Utils.get_translations("labels", "label_json_list"))
-        label_zip_folder.config(text=Utils.get_translations("labels", "label_zip_folder"))
+        label_title.config(text=Utils.get_translations("labels", "label_title"), font=("Arial", int(scale[1] * 12)))
+        label_json_list.config(text=Utils.get_translations("labels", "label_json_list"), font=updated_font)
+        label_zip_folder.config(text=Utils.get_translations("labels", "label_zip_folder"), font=updated_font)
 
         # right part
 
-        label_output_path.config(text=Utils.get_translations("labels", "label_output_path"))
-        button_open_output_folder.config(text=Utils.get_translations("buttons", "button_open_output_folder"))
-        button_generate_json.config(text=Utils.get_translations("buttons", "button_generate_json"))
-        label_credits.config(text=Utils.get_translations("labels", "label_credits"))
+        label_output_path.config(text=Utils.get_translations("labels", "label_output_path"), font=updated_font)
+        default_picture = Image.open(Utils.get_resources_path("resources\\pictures\\browse.png"))
+        resized_picture = default_picture.resize((int(20 * scale[0] + 5), int(20 * scale[1] + 5)), Image.ANTIALIAS)
+        correct_picture = ImageTk.PhotoImage(resized_picture)
+        button_select_output_path.config(image=correct_picture)
+        button_open_output_folder.config(text=Utils.get_translations("buttons", "button_open_output_folder"),
+                                         font=updated_font)
+        button_generate_json.config(text=Utils.get_translations("buttons", "button_generate_json"), font=updated_font)
+        label_credits.config(text=Utils.get_translations("labels", "label_credits"), font=updated_font)
 
     # Set basic parameters of frame
 
@@ -81,7 +77,7 @@ def main_gui():
     root.title(Utils.get_translations("other", "main_GUI_title"))
     root.iconbitmap(Utils.get_resources_path("resources\\icons\\app_icon.ico"))
 
-    root.bind("<Configure>", on_resize)
+    root.bind("<Configure>", on_update)
 
     # Add components to frame
 
@@ -103,7 +99,7 @@ def main_gui():
     entry_material_name.grid(row=7, column=1, rowspan=1, columnspan=7, sticky="NSEW")
 
     button_lang = Button(root, bg="darkgray", bd=2, highlightthickness=0,
-                         command=lambda: GUICommands.launch_language_gui(root))
+                         command=lambda: GUICommands.launch_language_gui(root, listbox_json_list))
     button_lang.grid(row=10, column=1, rowspan=3, columnspan=3, sticky="NSEW")
 
     button_github = Button(root, bg="darkgray", bd=2, highlightthickness=0, command=GUICommands.browse_to_github)
@@ -111,7 +107,7 @@ def main_gui():
 
     # middle part
 
-    label_title = Label(root, bg="blue", bd=0, highlightthickness=0)
+    label_title = Label(root, bg="gray", bd=0, highlightthickness=0)
     label_title.grid(row=0, column=6, rowspan=2, columnspan=13, sticky="NSEW")
 
     label_json_list = Label(root, bg="gray", bd=0, highlightthickness=0)
@@ -120,8 +116,8 @@ def main_gui():
     listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode="multiple", bd=0, highlightthickness=0)
     listbox_json_list.grid(row=3, column=9, rowspan=7, columnspan=7, sticky="NSEW")
 
-    # for json in Utils.get_json_list("items"):
-    # listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
+    for json in JsonManager.get_json_list("items"):
+        listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
 
     label_zip_folder = Label(root, bg="gray", bd=0, highlightthickness=0)
     label_zip_folder.grid(row=11, column=9, rowspan=1, columnspan=7, sticky="NSEW")
@@ -146,7 +142,10 @@ def main_gui():
                                        command=lambda: GUICommands.open_output_folder(entry_output_path))
     button_open_output_folder.grid(row=5, column=17, rowspan=1, columnspan=7, sticky="NSEW")
 
-    button_generate_json = Button(root, bg="darkgray", bd=2, highlightthickness=0, command=None)
+    button_generate_json = Button(root, bg="darkgray", bd=2, highlightthickness=0,
+                                  command=lambda: GUICommands.generate_json(entry_modid, entry_material_name,
+                                                                            entry_output_path, bool_check,
+                                                                            listbox_json_list))
     button_generate_json.grid(row=8, column=17, rowspan=2, columnspan=7, sticky="NSEW")
 
     label_credits = Label(root, bg="gray", bd=0, highlightthickness=0)
