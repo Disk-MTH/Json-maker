@@ -51,6 +51,7 @@ def make_output_dir(output_folder_path):
         os.mkdir("item")
 
     except FileNotFoundError:
+
         messagebox.showerror(get_translations("other", "error_GUI_title"),
                              get_translations("labels", "label_path_error_messagebox"))
 

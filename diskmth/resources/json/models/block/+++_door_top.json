@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "---:blocks/door_+++_lower",
+        "top": "---:blocks/door_+++_upper"
+    }
+}

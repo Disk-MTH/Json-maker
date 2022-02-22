@@ -14,7 +14,9 @@
 			"label_title_language": "Language menu",
 			
 			"label_blank_error_messagebox": "Error: One of the entries has been left empty. Please fill it out before generate json!",
-			"label_path_error_messagebox": "Error: The output path does not exist!"
+			"label_path_error_messagebox": "Error: The output path does not exist!",
+			"label_missing_model_warning_messagebox": "Warning: You have selected one json for a block but the model is missing. Do you still want to generate? The jsons for this block will not be generated: ",
+			"label_missing_blockstate_warning_messagebox": "Warning: You have selected one json for a block but the blockstate is missing. Do you still want to generate? The jsons for this block will not be generated: "
 		}
 	],
 	
@@ -37,10 +39,7 @@
 			"error_GUI_title": "Error!",
 			"warning_GUI_title": "Warning!",
 			
-			"json_material": "your_material",
-			
-			"missing_model_warning_messagebox": "Warning: You have selected one block json but the model is missing. Do you still want to generate? The jsons for this block will not be generated: ",
-			"missing_blockstate_warning_messagebox": "Warning: You have selected one block json but the blockstate is missing. Do you still want to generate? The jsons for this block will not be generated: "
+			"json_material": "your_material"
 		}
 	]
 }

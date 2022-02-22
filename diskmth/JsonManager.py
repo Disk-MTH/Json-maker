@@ -1,20 +1,21 @@
+from tkinter import messagebox
 import Utils
 import json
 import os
 
-global json_items
-global json_blocks
-global json_blockstates
+
+json_items = {}
+json_blocks = {}
+json_blockstates = {}
+global json_items_to_generate
+global json_blocks_to_generate
+global json_blockstates_to_generate
 
 
 def load_jsons():
     global json_items
     global json_blocks
     global json_blockstates
-
-    json_items = {}
-    json_blocks = {}
-    json_blockstates = {}
 
     for file in os.listdir(Utils.get_resources_path("resources\\json\\models\\item\\")):
         if str(file.lower()).endswith(".json"):
@@ -55,11 +56,8 @@ def get_json_list(json_list):
     if json_list == "blockstates":
         return json_blockstates
 
-"""
-def create_json_list_to_generate(json_list, material_name):
-    global json_items
-    global json_blocks
-    global json_blockstates
+
+def create_json_lists_to_generate(json_list, material_name):
     global json_items_to_generate
     global json_blocks_to_generate
     global json_blockstates_to_generate
@@ -68,61 +66,57 @@ def create_json_list_to_generate(json_list, material_name):
     json_blocks_to_generate = []
     json_blockstates_to_generate = []
 
-    for json_files in json_list:
-        if json_files in json_blocks and json_files not in json_blockstates:
+    already_cancel = False
 
-            if messagebox.askyesno(get_translations("other", "warning_GUI_title"),
-                                   get_translations("other", "missing_model_warning_messagebox")
-                                   + json_files.replace("+++", material_name), icon="warning"):
-                json_list.remove(json_files)
+    for json_file in json_list:
+        if json_file in json_blocks and json_file not in json_blockstates and not already_cancel:
+            if not messagebox.askyesno(Utils.get_translations("other", "warning_GUI_title"),
+                                       Utils.get_translations("labels", "label_missing_blockstate_warning_messagebox")
+                                       + json_file.replace("+++", material_name), icon="warning"):
+                already_cancel = True
+                checked_json_list = []
+        elif json_file not in json_blocks and json_file in json_blockstates and not already_cancel:
+            if not messagebox.askyesno(Utils.get_translations("other", "warning_GUI_title"),
+                                       Utils.get_translations("labels", "label_missing_model_warning_messagebox")
+                                       + json_file.replace("+++", material_name), icon="warning"):
+                already_cancel = True
+                checked_json_list = []
+        elif json_file in json_blocks and json_file in json_blockstates:
+            json_items_to_generate.append(json_file)
+            json_blocks_to_generate.append(json_file)
+            json_blockstates_to_generate.append(json_file)
 
-            else:
-                json_items_to_generate = []
-                json_blocks_to_generate = []
-                json_blockstates_to_generate = []
-                break
-
-        elif json_files not in json_blocks and json_files in json_blockstates:
-
-            if messagebox.askyesno(get_translations("other", "warning_GUI_title"),
-                                   get_translations("other", "missing_blockstate_warning_messagebox")
-                                   + json_files.replace("+++", material_name), icon="warning"):
-                json_list.remove(json_files)
-
-            else:
-                json_items_to_generate = []
-                json_blocks_to_generate = []
-                json_blockstates_to_generate = []
-                break
-
-        elif json_files in json_blocks and json_files in json_blockstates:
-            json_items_to_generate.append(json_files)
-            json_blocks_to_generate.append(json_files)
-            json_blockstates_to_generate.append(json_files)
-
-        elif json_files in json_items:
-            json_items_to_generate.append(json_files)
+        elif json_file in json_items and json_file not in json_blocks and json_file not in json_blockstates:
+            json_items_to_generate.append(json_file)
+    return already_cancel
 
 
-def create_json(output_folder_path, modid, material_name):
-    global json_items
-    global json_blocks
-    global json_blockstates
-    global json_items_to_generate
-    global json_blocks_to_generate
-    global json_blockstates_to_generate
+def create_json_files(modid, material_name, output_folder_path):
+    for json_file in json_items_to_generate:
+        with open(output_folder_path + "\\Json maker\\models\\item\\" + json_file.replace("+++", material_name) +
+                  ".json", "w+", encoding="utf-8") as file:
+            json.dump(json_items[json_file], file, indent=4)
+            file.seek(0)
+            file_content = file.read().replace("+++", material_name).replace("---", modid)
+            file.truncate(0)
+            file.seek(0)
+            file.write(file_content)
 
-    items_path = ""
-    blocks_path = output_folder_path + "\\Json maker\\models\\block\\"
-    blockstates_path = output_folder_path + "\\Json maker\\blockstates\\"
-
-    index = 0
-    for json_files in json_items_to_generate:
-
-        print(json_items[json_items_to_generate[index]])
-
-
-        with open(output_folder_path + "\\Json maker\\models\\item\\" + json_files.replace("+++", material_name), "w", encoding="utf-8") as json_file:
-            json.dump(json_items[json_items_to_generate[index]], json_file)
-        index += 1
-"""
+    for json_file in json_blocks_to_generate:
+        with open(output_folder_path + "\\Json maker\\models\\block\\" + json_file.replace("+++", material_name) +
+                  ".json", "w+", encoding="utf-8") as file:
+            json.dump(json_blocks[json_file], file, indent=4)
+            file.seek(0)
+            file_content = file.read().replace("+++", material_name).replace("---", modid)
+            file.truncate(0)
+            file.seek(0)
+            file.write(file_content)
+    for json_file in json_blockstates_to_generate:
+        with open(output_folder_path + "\\Json maker\\blockstates\\" + json_file.replace("+++", material_name) +
+                  ".json", "w+", encoding="utf-8") as file:
+            json.dump(json_blockstates[json_file], file, indent=4)
+            file.seek(0)
+            file_content = file.read().replace("+++", material_name).replace("---", modid)
+            file.truncate(0)
+            file.seek(0)
+            file.write(file_content)

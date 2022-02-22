@@ -51,10 +51,14 @@ def generate_json(entry_modid, entry_material_name, entry_output_path, bool_chec
     get_entries(entry_modid=entry_modid, entry_material_name=entry_material_name, entry_output_path=entry_output_path,
                 bool_check=bool_check, listbox_json_list=listbox_json_list)
 
-    Utils.make_output_dir(output_folder_path)
-
-    if is_zip_file:
-        Utils.zip_output_dir(output_folder_path)
+    try:
+        if not JsonManager.create_json_lists_to_generate(json_list, material_name):
+            Utils.make_output_dir(output_folder_path)
+            JsonManager.create_json_files(modid, material_name, output_folder_path)
+            if is_zip_file:
+                Utils.zip_output_dir(output_folder_path)
+    except NameError:
+        pass
 
 
 # Functions for LanguageGUI
