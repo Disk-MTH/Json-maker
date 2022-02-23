@@ -13,10 +13,9 @@
 			
 			"label_title_language": "Menu des langues",
 			
+			"label_finish_messagebox": "La génération de vos json est terminée !",
 			"label_blank_error_messagebox": "Erreur : Une des entrées a été laissée vide. Veuillez la remplir avant de générer les json !",
-			"label_path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !",
-			"label_missing_model_warning_messagebox": "Avertissement : Vous avez sélectionné un json pour un block mais le model manque. Souhaitez-vous quand même générer ? Les jsons pour ce bloc ne seront pas générés : ",
-			"label_missing_blockstate_warning_messagebox": "Avertissement : Vous avez sélectionné un json pour un block mais le blockstate manque. Souhaitez-vous quand même générer ? Les jsons pour ce bloc ne seront pas générés : "
+			"label_path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !"
 		}
 	],
 		
@@ -37,7 +36,7 @@
 			"translations_GUI_title": "Langue",
 			"file_selector_GUI_title": "Selectionnez un dossier de sortie",
 			"error_GUI_title": "Erreur !",
-			"warning_GUI_title": "Attention !",
+			"finish_GUI_title": "Terminé !",
 			
 			"json_material": "votre_materiau"
 		}

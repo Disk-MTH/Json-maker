@@ -30,30 +30,42 @@ def set_active_language(selected_language):
     active_language = selected_language
 
 
+def check_empty_entry(entries_to_check, show_message_box=True):
+    for key, value in entries_to_check.items():
+        if (key == "entry_modid" and value == "") or (key == "entry_material_name" and value == "") or \
+                (key == "listbox_json_list" and not value):
+            if show_message_box:
+                messagebox.showerror(get_translations("other", "error_GUI_title"),
+                                     get_translations("labels", "label_blank_error_messagebox"))
+            return False
+
+        elif key == "entry_output_path" and not value == "":
+            try:
+                os.chdir(value)
+                return True
+            except FileNotFoundError:
+                messagebox.showerror(get_translations("other", "error_GUI_title"),
+                                     get_translations("labels", "label_path_error_messagebox"))
+                return False
+
+
 def make_output_dir(output_folder_path):
+    os.chdir(output_folder_path)
     try:
-        os.chdir(output_folder_path)
+        os.mkdir("Json maker")
+    except FileExistsError:
+        shutil.rmtree("Json maker")
+        os.mkdir("Json maker")
 
-        try:
-            os.mkdir("Json maker")
-        except FileExistsError:
-            shutil.rmtree("Json maker")
-            os.mkdir("Json maker")
+    os.chdir("Json maker")
 
-        os.chdir("Json maker")
+    os.mkdir("blockstates")
+    os.mkdir("models")
 
-        os.mkdir("blockstates")
-        os.mkdir("models")
+    os.chdir("models")
 
-        os.chdir("models")
-
-        os.mkdir("block")
-        os.mkdir("item")
-
-    except FileNotFoundError:
-
-        messagebox.showerror(get_translations("other", "error_GUI_title"),
-                             get_translations("labels", "label_path_error_messagebox"))
+    os.mkdir("block")
+    os.mkdir("item")
 
 
 def zip_output_dir(output_folder_path):

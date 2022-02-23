@@ -6,6 +6,7 @@ import LanguageGUI
 import subprocess
 import webbrowser
 import Utils
+import time
 import os
 
 global modid
@@ -31,34 +32,38 @@ def launch_language_gui(root, listbox_json_list):
 
 def browse_output_path(entry_output_path):
     global output_folder_path
-    output_folder_path = filedialog.askdirectory(initialdir=os.environ["USERPROFILE"] + "\\Desktop",
-                                                 title=Utils.get_translations("other", "file_selector_GUI_title"))
     entry_output_path.delete(0, END)
-    entry_output_path.insert(0, output_folder_path)
+    entry_output_path.insert(0, filedialog.askdirectory(initialdir=os.environ["USERPROFILE"] + "\\Desktop",
+                                                        title=Utils.get_translations("other",
+                                                                                     "file_selector_GUI_title")))
 
 
 def open_output_folder(entry_output_path):
     global output_folder_path
-    get_entries(entry_output_path=entry_output_path)
-    filebrowser_path = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
-    formatted_path = os.path.normpath(output_folder_path)
+    get_entries(entries_to_get={"entry_output_path": entry_output_path})
+    if Utils.check_empty_entry(entries_to_check={"entry_output_path": output_folder_path}):
+        filebrowser_path = os.path.join(os.getenv('WINDIR'), 'explorer.exe')
 
-    if os.path.isdir(formatted_path):
-        subprocess.run([filebrowser_path, formatted_path])
+        formatted_path = os.path.normpath(output_folder_path)
+        if os.path.isdir(formatted_path):
+            subprocess.run([filebrowser_path, formatted_path])
 
 
 def generate_json(entry_modid, entry_material_name, entry_output_path, bool_check, listbox_json_list):
-    get_entries(entry_modid=entry_modid, entry_material_name=entry_material_name, entry_output_path=entry_output_path,
-                bool_check=bool_check, listbox_json_list=listbox_json_list)
-
-    try:
-        if not JsonManager.create_json_lists_to_generate(json_list, material_name):
-            Utils.make_output_dir(output_folder_path)
-            JsonManager.create_json_files(modid, material_name, output_folder_path)
-            if is_zip_file:
-                Utils.zip_output_dir(output_folder_path)
-    except NameError:
-        pass
+    get_entries(entries_to_get={"entry_modid": entry_modid, "entry_material_name": entry_material_name,
+                                "entry_output_path": entry_output_path, "bool_check": bool_check,
+                                "listbox_json_list": listbox_json_list})
+    if Utils.check_empty_entry(entries_to_check={"entry_modid": modid, "entry_material_name": material_name,
+                                                 "entry_output_path": output_folder_path,
+                                                 "listbox_json_list": json_list}):
+        Utils.make_output_dir(output_folder_path)
+        JsonManager.create_json_lists_to_generate(json_list, material_name)
+        JsonManager.create_json_files(modid, material_name, output_folder_path)
+        if is_zip_file:
+            Utils.zip_output_dir(output_folder_path)
+        time.sleep(2)
+        messagebox.showinfo(Utils.get_translations("other", "finish_GUI_title"),
+                            Utils.get_translations("labels", "label_finish_messagebox"))
 
 
 # Functions for LanguageGUI
@@ -86,55 +91,24 @@ def apply_changes(listbox_languages_list, root, parent_frame, listbox_json_list)
 
 # Other functions
 
-def get_entries(entry_modid=None, entry_material_name=None, entry_output_path=None, bool_check=None,
-                listbox_json_list=None):
+def get_entries(entries_to_get):
     global modid
     global material_name
     global output_folder_path
     global is_zip_file
     global json_list
 
-    empty_entry = False
-
-    try:
-        if entry_modid.get() == "":
-            empty_entry = True
-        else:
-            modid = entry_modid.get()
-    except AttributeError:
-        pass
-
-    try:
-        if entry_material_name.get() == "":
-            empty_entry = True
-        else:
-            material_name = entry_material_name.get()
-    except AttributeError:
-        pass
-
-    try:
-        if entry_output_path.get() == "":
-            empty_entry = True
-        else:
-            output_folder_path = entry_output_path.get()
-    except AttributeError:
-        pass
-
-    try:
-        is_zip_file = bool_check.get()
-    except AttributeError:
-        pass
-
-    try:
-        json_list = []
-        for selected_item in listbox_json_list.curselection():
-            json_list.append(listbox_json_list.get(selected_item)
-                             .replace(Utils.get_translations("other", "json_material"), "+++"))
-        if not json_list:
-            empty_entry = True
-    except AttributeError:
-        pass
-
-    if empty_entry:
-        messagebox.showerror(Utils.get_translations("other", "error_GUI_title"),
-                             Utils.get_translations("labels", "label_blank_error_messagebox"))
+    for key, value in entries_to_get.items():
+        if key == "entry_modid":
+            modid = value.get()
+        elif key == "entry_material_name":
+            material_name = value.get()
+        elif key == "entry_output_path":
+            output_folder_path = value.get()
+        elif key == "bool_check":
+            is_zip_file = value.get()
+        elif key == "listbox_json_list":
+            json_list = []
+            for selected_item in value.curselection():
+                json_list.append(value.get(selected_item)
+                                 .replace(Utils.get_translations("other", "json_material"), "+++"))
