@@ -15,7 +15,12 @@
 			
 			"label_finish_messagebox": "The generation of your json is finish!",
 			"label_blank_error_messagebox": "Error: One of the entries has been left empty. Please fill it out before generate json!",
-			"label_path_error_messagebox": "Error: The output path does not exist!"
+			"label_path_error_messagebox": "Error: The output path does not exist!",
+			"label_json_missing_error_messagebox": "Some of the json specified in the list of available json do not exist or are incorrect:",
+			
+			"label_json_category_item": "Item models: ",
+			"label_json_category_block": "Block models: ",
+			"label_json_category_blockstate": "Blockstates: "
 		}
 	],
 	
@@ -36,9 +41,7 @@
 			"translations_GUI_title": "Language",
 			"file_selector_GUI_title": "Select an output folder",
 			"error_GUI_title": "Error!",
-			"finish_GUI_title": "Finish!",
-			
-			"json_material": "your_material"
+			"finish_GUI_title": "Finish!"
 		}
 	]
 }

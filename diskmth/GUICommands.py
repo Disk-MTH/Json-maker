@@ -5,8 +5,8 @@ import JsonManager
 import LanguageGUI
 import subprocess
 import webbrowser
+import shutil
 import Utils
-import time
 import os
 
 global modid
@@ -54,16 +54,24 @@ def generate_json(entry_modid, entry_material_name, entry_output_path, bool_chec
                                 "entry_output_path": entry_output_path, "bool_check": bool_check,
                                 "listbox_json_list": listbox_json_list})
     if Utils.check_empty_entry(entries_to_check={"entry_modid": modid, "entry_material_name": material_name,
-                                                 "entry_output_path": output_folder_path,
-                                                 "listbox_json_list": json_list}):
+                                                 "listbox_json_list": json_list,
+                                                 "entry_output_path": output_folder_path}):
         Utils.make_output_dir(output_folder_path)
         JsonManager.create_json_lists_to_generate(json_list, material_name)
         JsonManager.create_json_files(modid, material_name, output_folder_path)
-        if is_zip_file:
-            Utils.zip_output_dir(output_folder_path)
-        time.sleep(2)
-        messagebox.showinfo(Utils.get_translations("other", "finish_GUI_title"),
-                            Utils.get_translations("labels", "label_finish_messagebox"))
+        if JsonManager.cancel_generate:
+            is_output_empty = True
+            for root, folders, files in os.walk(output_folder_path + "\\Json maker"):
+                if files:
+                    is_output_empty = False
+            if is_output_empty:
+                shutil.rmtree(output_folder_path + "\\Json maker")
+            JsonManager.cancel_generate = False
+        else:
+            if is_zip_file:
+                Utils.zip_output_dir(output_folder_path)
+            messagebox.showinfo(Utils.get_translations("other", "finish_GUI_title"),
+                                Utils.get_translations("labels", "label_finish_messagebox"))
 
 
 # Functions for LanguageGUI
@@ -74,7 +82,7 @@ def close_gui(root, parent_frame, listbox_json_list):
     parent_frame.wm_attributes("-topmost", True)
     parent_frame.wm_attributes("-topmost", False)
     listbox_json_list.delete(0, END)
-    for json in JsonManager.get_json_list("items"):
+    for json in JsonManager.get_json_list():
         listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
     for json in selected_json:
         listbox_json_list.select_set(json)
@@ -110,5 +118,4 @@ def get_entries(entries_to_get):
         elif key == "listbox_json_list":
             json_list = []
             for selected_item in value.curselection():
-                json_list.append(value.get(selected_item)
-                                 .replace(Utils.get_translations("other", "json_material"), "+++"))
+                json_list.append(value.get(selected_item))

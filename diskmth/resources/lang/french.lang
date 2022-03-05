@@ -15,7 +15,12 @@
 			
 			"label_finish_messagebox": "La génération de vos json est terminée !",
 			"label_blank_error_messagebox": "Erreur : Une des entrées a été laissée vide. Veuillez la remplir avant de générer les json !",
-			"label_path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !"
+			"label_path_error_messagebox": "Erreur : Le chemin de sortie n'existe pas !",
+			"label_json_missing_error_messagebox": "Certains des json renseignés dans la liste des json disponibles n'existent pas ou sont incorrects :",
+			
+			"label_json_category_item": "Modèles d'item: ",
+			"label_json_category_block": "Modèles de block: ",
+			"label_json_category_blockstate": "Blockstates: "
 		}
 	],
 		
@@ -36,9 +41,7 @@
 			"translations_GUI_title": "Langue",
 			"file_selector_GUI_title": "Selectionnez un dossier de sortie",
 			"error_GUI_title": "Erreur !",
-			"finish_GUI_title": "Terminé !",
-			
-			"json_material": "votre_materiau"
+			"finish_GUI_title": "Terminé !"
 		}
 	]
 }

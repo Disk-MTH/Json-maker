@@ -1,0 +1,105 @@
+{
+	"item": [
+		{
+			"item_model": ["+++"]	
+		}
+	],
+	
+	"item_pickaxe": [
+		{
+			"item_model": ["+++_pickaxe"]
+		}
+	],
+	
+	"item_axe": [
+		{
+			"item_model": ["+++_axe"]
+		}
+	],
+	
+	"item_shovel": [
+		{
+			"item_model": ["+++_shovel"]
+		}
+	],
+	
+	"item_sword": [
+		{
+			"item_model": ["+++_sword"]
+		}
+	],
+
+	"item_hoe": [
+		{
+			"item_model": ["+++_hoe"]
+		}
+	],
+
+	"item_helmet": [
+		{
+			"item_model": ["+++_helmet"]
+		}
+	],
+
+	"item_chestplate": [
+		{
+			"item_model": ["+++_chestplate"]
+		}
+	],
+
+	"item_leggings": [
+		{
+			"item_model": ["+++_leggings"]
+		}
+	],
+
+	"item_boots": [
+		{
+			"item_model": ["+++_boots"]
+		}
+	],
+
+
+
+
+
+	"block_block": [
+		{
+			"item_model": ["+++_block"],
+			"block_model": ["+++_block"],
+			"blockstate": ["+++_block"]
+		}
+	],
+	
+	"block_ore": [
+		{
+			"item_model": ["+++_ore"],
+			"block_model": ["+++_ore"],
+			"blockstate": ["+++_ore"]
+		}
+	],
+
+
+
+
+
+	"material_set": [
+		{
+			"item_model": ["+++", "+++_block", "+++_ore"],
+			"item_model": ["+++_block", "+++_ore"],
+			"blockstate": ["+++_block", "+++_ore"]
+		}
+	],	
+	
+	"tool_set": [
+		{
+			"item_model": ["+++_pickaxe", "+++_axe", "+++_shovel", "+++_sword", "+++_hoe"]
+		}
+	],	
+
+	"armor_set": [
+		{
+			"item_model": ["+++_helmet", "+++_chestplate", "+++_leggings", "+++_boots"]
+		}
+	]	
+}

@@ -116,8 +116,8 @@ def main_gui():
     listbox_json_list = Listbox(root, selectbackground="darkgray", selectmode="multiple", bd=0, highlightthickness=0)
     listbox_json_list.grid(row=3, column=9, rowspan=7, columnspan=7, sticky="NSEW")
 
-    for json in JsonManager.get_json_list("items"):
-        listbox_json_list.insert(END, str(json).replace("+++", Utils.get_translations("other", "json_material")))
+    for json in JsonManager.get_json_list():
+        listbox_json_list.insert(END, json)
 
     label_zip_folder = Label(root, bg="gray", bd=0, highlightthickness=0)
     label_zip_folder.grid(row=11, column=9, rowspan=1, columnspan=7, sticky="NSEW")
