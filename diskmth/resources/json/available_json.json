@@ -34,6 +34,12 @@
 			"item_model": ["+++_hoe"]
 		}
 	],
+	
+	"item_shears": [
+		{
+			"item_model": ["+++_shears"]
+		}
+	],
 
 	"item_helmet": [
 		{
@@ -58,6 +64,18 @@
 			"item_model": ["+++_boots"]
 		}
 	],
+	
+	"item_bow": [
+		{
+			"item_model": ["+++_bow", "+++_bow_pulling_0", "+++_bow_pulling_1", "+++_bow_pulling_2"]
+		}
+	],
+	
+	"item_dynamite": [
+		{
+			"item_model": ["+++_dynamite"]
+		}
+	],
 
 
 
@@ -78,6 +96,14 @@
 			"blockstate": ["+++_ore"]
 		}
 	],
+	
+	"block_tnt": [
+		{
+			"item_model": ["+++_tnt"],
+			"block_model": ["+++_tnt"],
+			"blockstate": ["+++_tnt"]
+		}
+	],
 
 
 
@@ -91,11 +117,17 @@
 		}
 	],	
 	
-	"tool_set": [
+	"basic_tool_set": [
 		{
-			"item_model": ["+++_pickaxe", "+++_axe", "+++_shovel", "+++_sword", "+++_hoe"]
+			"item_model": ["+++_pickaxe", "+++_axe", "+++_shovel", "+++_sword"]
 		}
-	],	
+	],
+
+	"full_tool_set": [
+		{
+			"item_model": ["+++_pickaxe", "+++_axe", "+++_shovel", "+++_sword", "+++_hoe", "+++_shears"]
+		}
+	],		
 
 	"armor_set": [
 		{

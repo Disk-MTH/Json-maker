@@ -7,6 +7,8 @@ def get_all_resources():
     path_1 = "..\\diskmth\\resources\\*.*"
     path_2 = "..\\diskmth\\resources\\*\\*.*"
     path_3 = "..\\diskmth\\resources\\*\\*\\*.*"
+    path_4 = "..\\diskmth\\resources\\*\\*\\*\\*.*"
+    path_5 = "..\\diskmth\\resources\\*\\*\\*\\*\\*.*"
     files_path = []
 
     for i in glob.glob(path_1):
@@ -14,6 +16,10 @@ def get_all_resources():
     for i in glob.glob(path_2):
         files_path.append(os.path.abspath(i))
     for i in glob.glob(path_3):
+        files_path.append(os.path.abspath(i))
+    for i in glob.glob(path_4):
+        files_path.append(os.path.abspath(i))
+    for i in glob.glob(path_5):
         files_path.append(os.path.abspath(i))
     return files_path
 

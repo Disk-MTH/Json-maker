@@ -1,0 +1,6 @@
+{
+	"variants": {
+		        "explode=false": { "model":"---:+++_tnt" },
+                "explode=true": { "model":"---:+++_tnt" }
+	}
+}
