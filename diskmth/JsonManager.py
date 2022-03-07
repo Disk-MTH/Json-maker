@@ -8,9 +8,6 @@ cancel_generate = False
 global json_items_to_generate
 global json_blocks_to_generate
 global json_blockstates_to_generate
-json_items_path = Utils.get_resources_path("resources\\json\\models\\item\\")
-json_blocks_path = Utils.get_resources_path("resources\\json\\models\\block\\")
-json_blockstates_path = Utils.get_resources_path("resources\\json\\blockstates\\")
 
 
 def load_jsons():

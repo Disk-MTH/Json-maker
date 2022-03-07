@@ -21,9 +21,9 @@ def main_gui():
     bool_check = BooleanVar()
 
     # Initialization of json and translations
-
-    tradlib.set_translations_files_path(os.environ["USERPROFILE"] +
-                                        "\\Desktop\\dev\\Json maker\\diskmth\\resources\\lang", True)
+    
+    tradlib.set_translations_files_path(os.path.abspath(__file__).split("MainGUI.py")[0] + "resources\\lang\\", 
+                                        True)
     tradlib.load_translations_files()
 
     # Definition of some useful functions
