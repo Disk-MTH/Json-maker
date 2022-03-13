@@ -104,6 +104,14 @@
 			"blockstate": ["+++_tnt"]
 		}
 	],
+	
+	"block_ladders": [
+		{
+			"item_model": ["+++_ladders"],
+			"block_model": ["+++_ladders"],
+			"blockstate": ["+++_ladders"]
+		}
+	],
 
 
 
@@ -112,7 +120,7 @@
 	"material_set": [
 		{
 			"item_model": ["+++", "+++_block", "+++_ore"],
-			"item_model": ["+++_block", "+++_ore"],
+			"block_model": ["+++_block", "+++_ore"],
 			"blockstate": ["+++_block", "+++_ore"]
 		}
 	],	
